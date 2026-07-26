@@ -5,8 +5,13 @@ import streamlit as st
 
 from shopping_agent import agent
 
-if "ANTHROPIC_API_KEY" in st.secrets:
-    os.environ["ANTHROPIC_API_KEY"] = st.secrets["ANTHROPIC_API_KEY"]
+try:
+    anthropic_key = st.secrets.get("ANTHROPIC_API_KEY")
+except Exception:
+    anthropic_key = None
+
+if anthropic_key:
+    os.environ.setdefault("ANTHROPIC_API_KEY", anthropic_key)
     
 st.set_page_config(
     page_title="AI Shopping Assistant",
